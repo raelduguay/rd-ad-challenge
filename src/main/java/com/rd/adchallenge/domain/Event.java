@@ -99,7 +99,7 @@ public class Event {
   
   protected User getUser(Node userNode) {
     String openId = evaluateXpathAsString("openId", userNode);
-    String firstName = evaluateXpathAsString("firstName");
+    String firstName = evaluateXpathAsString("firstName", userNode);
     String lastName = evaluateXpathAsString("lastName", userNode);
     String email = evaluateXpathAsString("email", userNode);
     

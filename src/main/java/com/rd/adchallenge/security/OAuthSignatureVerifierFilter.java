@@ -5,6 +5,7 @@
 package com.rd.adchallenge.security;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.FilterChain;
@@ -27,7 +28,7 @@ import org.springframework.security.oauth.common.signature.OAuthSignatureMethod;
 import org.springframework.security.oauth.common.signature.OAuthSignatureMethodFactory;
 import org.springframework.security.oauth.common.signature.UnsupportedSignatureMethodException;
 import org.springframework.security.oauth.provider.ConsumerDetails;
-import org.springframework.security.oauth.provider.ConsumerDetailsService;
+import org.springframework.security.oauth.provider.InMemoryConsumerDetailsService;
 import org.springframework.security.oauth.provider.OAuthProviderSupport;
 import org.springframework.security.oauth.provider.filter.CoreOAuthProviderSupport;
 import org.springframework.stereotype.Component;
@@ -43,9 +44,22 @@ public class OAuthSignatureVerifierFilter extends GenericFilterBean {
 
   private OAuthProviderSupport providerSupport = new CoreOAuthProviderSupport();
   private OAuthSignatureMethodFactory signatureMethodFactory = new CoreOAuthSignatureMethodFactory();
+  private InMemoryConsumerDetailsService consumerDetailsService;
   
   @Autowired
-  private ConsumerDetailsService consumerDetailsService;
+  private ConsumerDetails consumerDetails;
+  
+  @Override
+  public void afterPropertiesSet() throws ServletException {
+    super.afterPropertiesSet();
+    
+    consumerDetailsService = new InMemoryConsumerDetailsService();
+    
+    Map<String, ConsumerDetails> consumerDetailsStore = new HashMap<>();
+    consumerDetailsStore.put(consumerDetails.getConsumerKey(), consumerDetails);
+    
+    consumerDetailsService.setConsumerDetailsStore(consumerDetailsStore);
+  }
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

@@ -2,58 +2,57 @@
  * Author : rael
  * Date   : August 24, 2015
  */
-package com.rd.adchallenge.ui;
-
-import javax.servlet.annotation.WebServlet;
+package com.rd.adchallenge.ui.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 
 import com.rd.adchallenge.audit.EventAuditor;
+import com.rd.adchallenge.domain.AccountRepository;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.spring.annotation.EnableVaadin;
 import com.vaadin.spring.annotation.SpringUI;
-import com.vaadin.spring.server.SpringVaadinServlet;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @Theme("valo")
 @SpringUI(path="/admin")
-@Title("App Direct Challenge")
-public class AdChallengeUi extends UI {
+@Title(AdminUi.TITLE)
+public class AdminUi extends UI {
   
-  // TODO RD HERE Account table view, put in tab
-
   private static final long serialVersionUID = -4758138439938475856L;
-  
-  @WebServlet(value = { "/ui/*", "/VAADIN/*" }, asyncSupported = true)
-  public static class Servlet extends SpringVaadinServlet {
-    private static final long serialVersionUID = -5515015488891443037L;
-  }
-  
-  @Configuration
-  @EnableVaadin
-  public static class MyConfiguration {
-  }  
+
+  public static final String TITLE = "App Direct Challenge Admin";
   
   @Autowired
   private EventAuditor eventAuditor;
+  
+  @Autowired
+  private AccountRepository accountRepository;
   
   @Override
   protected void init(VaadinRequest request) {
     VerticalLayout layout = new VerticalLayout();
     layout.setMargin(true);
+    layout.setSpacing(true);
     
-    Label title = new Label("App Direct Challenge");
+    Label title = new Label(TITLE);
     title.setStyleName("h1");
     layout.addComponent(title);
     
-    AuditView auditView = new AuditView(eventAuditor);
-    auditView.setSizeFull();
-    layout.addComponent(auditView);
+    TabSheet tabSheet = new TabSheet();
+    tabSheet.setSizeFull();
+    layout.addComponent(tabSheet);
+    
+    EventLogTableView auditView = new EventLogTableView(eventAuditor);
+    auditView.setCaption("Events Audit");
+    tabSheet.addComponent(auditView);
+
+    AccountTableView accountsView = new AccountTableView(accountRepository);
+    accountsView.setCaption("Accounts");
+    tabSheet.addComponent(accountsView);
     
     setContent(layout);
   }

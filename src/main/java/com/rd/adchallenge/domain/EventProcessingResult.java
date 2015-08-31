@@ -9,6 +9,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * AppDirect documentations doesn't mention that it supports all fields on every response,
+ * but from testing AppDirect seems to tolerate them. For a real product I'd rather be strict on
+ * what is sent.
+ */
 @XmlRootElement(name = "result")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EventProcessingResult {

@@ -20,7 +20,7 @@ import com.rd.adchallenge.domain.EventProcessingResult;
 
 @Path("/subscription")
 @Component
-public class SubscriptionResource extends AppDirectApiResource {
+public class SubscriptionResource extends AbstractAppDirectApiResource {
   
   private static final Log LOGGER = LogFactory.getLog(SubscriptionResource.class);
   

@@ -18,7 +18,7 @@ import com.rd.adchallenge.domain.EventProcessingResult;
 
 @Path("/assignation")
 @Component
-public class UserAssignmentResource extends AppDirectApiResource {
+public class UserAssignmentResource extends AbstractAppDirectApiResource {
   
   private final Log LOGGER = LogFactory.getLog(UserAssignmentResource.class);
 

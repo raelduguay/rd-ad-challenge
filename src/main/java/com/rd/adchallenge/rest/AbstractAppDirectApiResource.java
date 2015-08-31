@@ -24,9 +24,9 @@ import com.rd.adchallenge.domain.AccountRepository;
 import com.rd.adchallenge.domain.Event;
 import com.rd.adchallenge.domain.EventFactory;
 
-public abstract class AppDirectApiResource {
+public abstract class AbstractAppDirectApiResource {
   
-  private static final Log LOGGER = LogFactory.getLog(AppDirectApiResource.class);
+  private static final Log LOGGER = LogFactory.getLog(AbstractAppDirectApiResource.class);
 
   @Autowired
   protected AccountRepository accountRepository;

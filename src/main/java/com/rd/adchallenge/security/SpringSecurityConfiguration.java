@@ -7,7 +7,6 @@ package com.rd.adchallenge.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -16,13 +15,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfiguration {
-  
-  @Autowired
-  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth
-      .inMemoryAuthentication()
-        .withUser("admin").password("admin").roles("ADMIN");
-  }
 
   /**
    * Add a simple filter on a spring security filter chain that does only signature verification, it
@@ -31,7 +23,7 @@ public class SpringSecurityConfiguration {
    */
   @Configuration
   @Order(0)
-  public static class SubscriptionApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+  public static class AppDirectApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private OAuthSignatureVerifierFilter oauthSignatureVerifierFilter; 
@@ -39,26 +31,28 @@ public class SpringSecurityConfiguration {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
       http
-        .requestMatchers().antMatchers("/rest/subscription/**", "/rest/assignation/**")
-          .and()
+        .requestMatchers()
+          .antMatchers("/rest/subscription/**", "/rest/assignation/**")
+        .and()
         .addFilterAfter(oauthSignatureVerifierFilter, BasicAuthenticationFilter.class);
     }
   }
   
   /**
-   * Form authentication for "admin" UI
+   * Form authentication for the real app  UI
    */
   @Configuration
   @Order(1)
-  public static class UiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+  public static class AppWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
       http
         .authorizeRequests()
-          .antMatchers("/ui/**").hasRole("ADMIN")
-          .and()
-        .formLogin()
-          .and()
+          .antMatchers("/ui/app/**").hasRole("USER")
+        .and()
+        .openidLogin()
+          .authenticationUserDetailsService(new OpenIdUserDetailsService())
+        .and()
         .csrf().disable();
     }
   }
