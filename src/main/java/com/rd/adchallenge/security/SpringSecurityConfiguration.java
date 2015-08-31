@@ -57,5 +57,7 @@ public class SpringSecurityConfiguration {
     }
   }
   
+  // TODO Admin UI security
+  
 }
 

@@ -19,7 +19,9 @@ import org.apache.commons.logging.LogFactory;
  * Provides a few read-only methods for display purposes, all processing is triggered by Events
  * fetched from App Direct once a notification has been received.
  * <p>
- * Currently not thread-safe. A real product should evaluate multi-threading implications.
+ * Currently not thread-safe. A real product should evaluate multi-threading implications - for a 
+ * more realistic scenario where data is backed by a DB then proper transactions + Hibernate
+ * optimistic locking would automatically handle concurrent updates.
  * <p>
  * Considerations for a real application:
  * <ul>
@@ -115,7 +117,6 @@ public class Account {
           id,
           getStateName());
     }
-    
   }
   
   private class InitialState extends BaseAccountState {
@@ -134,7 +135,6 @@ public class Account {
       // State transition
       state = new ActiveState();
     }
-    
   }
   
   private class ActiveState extends BaseAccountState {
