@@ -24,4 +24,5 @@ Limitations:
 - Minimal (but working nonetheless) OAuth signature verification through a custom servlet filter, piggybacking on spring-security-oauth primitives.
 - OpenId integration currently accepts all authenticated users - however real app should also authorize access based on user assignemnt on the accessed app.
 - Admin page would obviously requires some authentication as well (it's slightly more effort than I could squeeze to have simultaneous authentication schemes for different URIs as I leveraged the automatically generated forms and other spring security URLs)
+- Vaadin-based quick-UI - far from perfect, as I hooked some Spring beans directly in the UI classes that are serialized as part of the HttpSession, which cause some serialization exceptions if the Servlet container tries to persist the session.  
 - Of course for a real product I'd written Unit Tests :)
