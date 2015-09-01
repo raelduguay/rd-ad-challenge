@@ -2,12 +2,13 @@
  * Author : rael
  * Date   : August 24, 2015
  */
-package com.rd.adchallenge.audit;
+package com.rd.adchallenge.event;
 
 import java.util.List;
 
-import com.rd.adchallenge.domain.Event;
-
+/**
+ * Simple interface to record and retrieve events received through App Direct
+ */
 public interface EventAuditor {
 
   void eventReceived(Event event);

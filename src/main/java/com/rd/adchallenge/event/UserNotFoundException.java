@@ -2,7 +2,9 @@
  * Author : rael
  * Date   : August 24, 2015
  */
-package com.rd.adchallenge.domain;
+package com.rd.adchallenge.event;
+
+import com.rd.adchallenge.entities.User;
 
 public class UserNotFoundException extends EventProcessingException {
   
@@ -10,8 +12,8 @@ public class UserNotFoundException extends EventProcessingException {
   
   private static final String MSG_FMT = "User [%s] not assigned to account [%s]";
 
-  public UserNotFoundException(User user, Account account) {
-    super(EventProcessingResult.ERROR_CODE_USER_NOT_FOUND, MSG_FMT, user.getOpenId(), account.getId());
+  public UserNotFoundException(User user, Long accountId) {
+    super(EventProcessingResult.ERROR_CODE_USER_NOT_FOUND, MSG_FMT, user.getOpenId(), accountId);
   }
   
 }

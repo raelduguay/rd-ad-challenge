@@ -6,8 +6,8 @@ package com.rd.adchallenge.ui.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.rd.adchallenge.audit.EventAuditor;
-import com.rd.adchallenge.domain.AccountRepository;
+import com.rd.adchallenge.entities.AccountEntityRepository;
+import com.rd.adchallenge.event.EventAuditor;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.server.VaadinRequest;
@@ -30,7 +30,7 @@ public class AdminUi extends UI {
   private EventAuditor eventAuditor;
   
   @Autowired
-  private AccountRepository accountRepository;
+  private AccountEntityRepository accountRepository;
   
   @Override
   protected void init(VaadinRequest request) {

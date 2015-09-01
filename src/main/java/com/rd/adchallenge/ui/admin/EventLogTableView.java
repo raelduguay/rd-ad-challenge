@@ -6,17 +6,17 @@ package com.rd.adchallenge.ui.admin;
 
 import java.util.Collection;
 
-import com.rd.adchallenge.audit.EventAuditor;
+import com.rd.adchallenge.event.EventAuditor;
 import com.vaadin.data.util.AbstractBeanContainer.BeanIdResolver;
 
-public class EventLogTableView extends AbstractTableAdminView<com.rd.adchallenge.domain.Event, Long> {
+public class EventLogTableView extends AbstractTableAdminView<com.rd.adchallenge.event.Event, Long> {
   
   private static final long serialVersionUID = -3590687950457104149L;
   
   private final EventAuditor eventAuditor;
 
   public EventLogTableView(EventAuditor eventAuditor) {
-    super(com.rd.adchallenge.domain.Event.class);
+    super(com.rd.adchallenge.event.Event.class);
     
     if (eventAuditor == null) 
       throw new IllegalArgumentException("eventAuditor");
@@ -32,7 +32,7 @@ public class EventLogTableView extends AbstractTableAdminView<com.rd.adchallenge
   }
 
   @Override
-  protected BeanIdResolver<Long, com.rd.adchallenge.domain.Event> getBeanIdResolver() {
+  protected BeanIdResolver<Long, com.rd.adchallenge.event.Event> getBeanIdResolver() {
     return b -> b.getId();
   }
 
@@ -42,7 +42,7 @@ public class EventLogTableView extends AbstractTableAdminView<com.rd.adchallenge
   }
 
   @Override
-  protected Collection<com.rd.adchallenge.domain.Event> getCurrentBeans() {
+  protected Collection<com.rd.adchallenge.event.Event> getCurrentBeans() {
     return eventAuditor.getReceivedEvents();
   }
 

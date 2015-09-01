@@ -12,9 +12,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
 
-import com.rd.adchallenge.domain.Account;
-import com.rd.adchallenge.domain.Event;
-import com.rd.adchallenge.domain.EventProcessingResult;
+import com.rd.adchallenge.event.Event;
+import com.rd.adchallenge.event.EventProcessingResult;
 
 @Path("/assignation")
 @Component
@@ -30,8 +29,7 @@ public class UserAssignmentResource extends AbstractAppDirectApiResource {
     LOGGER.info("assign: eventUrl=[" + eventUrl +"]");
     
     Event event = fetchEventAndAudit(eventUrl);
-    Account account = findExistingAccount(event);
-    account.getEventProcessor().onAssign(event);
+    accountProcessor.onAssign(event);
     
     return eventFactory.createSuccessfulResult();
   }
@@ -44,8 +42,7 @@ public class UserAssignmentResource extends AbstractAppDirectApiResource {
     LOGGER.info("unassign: eventUrl=[" + eventUrl +"]");
     
     Event event = fetchEventAndAudit(eventUrl);
-    Account account = findExistingAccount(event);
-    account.getEventProcessor().onUnassign(event);
+    accountProcessor.onUnassign(event);
 
     return eventFactory.createSuccessfulResult();
   }

@@ -2,7 +2,7 @@
  * Author : rael
  * Date   : August 24, 2015
  */
-package com.rd.adchallenge.domain;
+package com.rd.adchallenge.event;
 
 import java.io.IOException;
 import java.io.Reader;

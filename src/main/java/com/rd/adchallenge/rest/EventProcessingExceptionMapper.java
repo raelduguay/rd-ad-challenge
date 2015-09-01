@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.rd.adchallenge.domain.EventFactory;
-import com.rd.adchallenge.domain.EventProcessingException;
-import com.rd.adchallenge.domain.EventProcessingResult;
+import com.rd.adchallenge.event.EventFactory;
+import com.rd.adchallenge.event.EventProcessingException;
+import com.rd.adchallenge.event.EventProcessingResult;
 
 @Component
 @Provider

@@ -17,19 +17,17 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.rd.adchallenge.audit.EventAuditor;
-import com.rd.adchallenge.domain.Account;
-import com.rd.adchallenge.domain.AccountNotFoundException;
-import com.rd.adchallenge.domain.AccountRepository;
-import com.rd.adchallenge.domain.Event;
-import com.rd.adchallenge.domain.EventFactory;
+import com.rd.adchallenge.account.AccountEventProcessor;
+import com.rd.adchallenge.event.Event;
+import com.rd.adchallenge.event.EventAuditor;
+import com.rd.adchallenge.event.EventFactory;
 
 public abstract class AbstractAppDirectApiResource {
   
   private static final Log LOGGER = LogFactory.getLog(AbstractAppDirectApiResource.class);
 
   @Autowired
-  protected AccountRepository accountRepository;
+  protected AccountEventProcessor accountProcessor;
   
   @Autowired
   protected EventFactory eventFactory;
@@ -69,15 +67,6 @@ public abstract class AbstractAppDirectApiResource {
     } catch (OAuthException e) {
       throw new InternalServerErrorException(e);
     }
-  }
-  
-  protected Account findExistingAccount(Event event) {
-    String accountId = event.getAccountId();
-    Account account = accountRepository.findById(accountId);
-    if (account == null) {
-      throw new AccountNotFoundException(accountId);
-    }
-    return account;
   }
   
 }

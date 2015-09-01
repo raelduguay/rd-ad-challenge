@@ -2,7 +2,7 @@
  * Author : rael
  * Date   : August 24, 2015
  */
-package com.rd.adchallenge.domain;
+package com.rd.adchallenge.event;
 
 import java.util.Date;
 import java.util.Optional;
@@ -16,6 +16,8 @@ import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
+import com.rd.adchallenge.entities.User;
 
 /**
  * Tolerant-reader-style of encapsulation of an event fetched in response of a notification received
@@ -103,7 +105,12 @@ public class Event {
     String lastName = evaluateXpathAsString("lastName", userNode);
     String email = evaluateXpathAsString("email", userNode);
     
-    return new User(openId, firstName + " " + lastName, email);
+    User user = new User();
+    user.setOpenId(openId);
+    user.setFullName(firstName + " " + lastName);
+    user.setEmail(email);
+    
+    return user;
   }
 
   private String evaluateXpathAsString(String expression) {

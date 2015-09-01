@@ -14,9 +14,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
 
-import com.rd.adchallenge.domain.Account;
-import com.rd.adchallenge.domain.Event;
-import com.rd.adchallenge.domain.EventProcessingResult;
+import com.rd.adchallenge.event.Event;
+import com.rd.adchallenge.event.EventProcessingResult;
 
 @Path("/subscription")
 @Component
@@ -33,12 +32,9 @@ public class SubscriptionResource extends AbstractAppDirectApiResource {
     LOGGER.info("create: eventUrl=[" + eventUrl +"]");
     
     Event event = fetchEventAndAudit(eventUrl);
+    Long createdAccountId = accountProcessor.onOrder(event);
     
-    Account newAccount = accountRepository.createAccount();
-    newAccount.getEventProcessor().onOrder(event);
-    newAccount = accountRepository.save(newAccount);
-    
-    return eventFactory.createSuccessfulResult(newAccount.getId());
+    return eventFactory.createSuccessfulResult("" + createdAccountId);
   }
 
   @GET
@@ -50,8 +46,7 @@ public class SubscriptionResource extends AbstractAppDirectApiResource {
     LOGGER.info("change: eventUrl=[" + eventUrl + "]");
 
     Event event = fetchEventAndAudit(eventUrl);
-    Account account = findExistingAccount(event);
-    account.getEventProcessor().onChange(event);
+    accountProcessor.onChange(event);
     
     return eventFactory.createSuccessfulResult();
   }
@@ -65,8 +60,7 @@ public class SubscriptionResource extends AbstractAppDirectApiResource {
     LOGGER.info("cancel: eventUrl=[" + eventUrl + "]");
 
     Event event = fetchEventAndAudit(eventUrl);
-    Account account = findExistingAccount(event);
-    account.getEventProcessor().onCancel(event);
+    accountProcessor.onCancel(event);
     
     return eventFactory.createSuccessfulResult();
   }
@@ -80,8 +74,7 @@ public class SubscriptionResource extends AbstractAppDirectApiResource {
     LOGGER.info("notice: eventUrl=[" + eventUrl + "]");
 
     Event event = fetchEventAndAudit(eventUrl);
-    Account account = findExistingAccount(event);
-    account.getEventProcessor().onNotice(event);
+    accountProcessor.onNotice(event);
     
     return eventFactory.createSuccessfulResult();
   }

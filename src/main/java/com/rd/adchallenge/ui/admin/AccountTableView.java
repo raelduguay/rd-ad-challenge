@@ -7,23 +7,23 @@ package com.rd.adchallenge.ui.admin;
 import java.util.Collection;
 
 import com.google.gwt.thirdparty.guava.common.collect.Lists;
-import com.rd.adchallenge.domain.Account;
-import com.rd.adchallenge.domain.AccountRepository;
+import com.rd.adchallenge.entities.AccountEntity;
+import com.rd.adchallenge.entities.AccountEntityRepository;
 import com.vaadin.data.util.AbstractBeanContainer.BeanIdResolver;
 
-public class AccountTableView extends AbstractTableAdminView<Account, String> {
+public class AccountTableView extends AbstractTableAdminView<AccountEntity, Long> {
   
   private static final long serialVersionUID = -5367092298608296366L;
   
-  private final AccountRepository accountRepository;
+  private final AccountEntityRepository repository;
 
-  public AccountTableView(AccountRepository accountRepository) {
-    super(Account.class);
+  public AccountTableView(AccountEntityRepository repository) {
+    super(AccountEntity.class);
     
-    if (accountRepository == null) 
-      throw new IllegalArgumentException("accountRepository");
+    if (repository == null) 
+      throw new IllegalArgumentException("repository");
     
-    this.accountRepository = accountRepository;
+    this.repository = repository;
     
     setContent();
   }
@@ -34,7 +34,7 @@ public class AccountTableView extends AbstractTableAdminView<Account, String> {
   }
 
   @Override
-  protected BeanIdResolver<String, Account> getBeanIdResolver() {
+  protected BeanIdResolver<Long, AccountEntity> getBeanIdResolver() {
     return b -> b.getId();
   }
 
@@ -44,8 +44,8 @@ public class AccountTableView extends AbstractTableAdminView<Account, String> {
   }
 
   @Override
-  protected Collection<Account> getCurrentBeans() {
-    return Lists.newArrayList(accountRepository.findAll());
+  protected Collection<AccountEntity> getCurrentBeans() {
+    return Lists.newArrayList(repository.findAll());
   }
   
 }
