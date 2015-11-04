@@ -47,7 +47,7 @@ public class PersistenceConfiguration {
   }
   
   @Configuration
-  @EnableJpaRepositories("com.rd.adchallenge.jpa")
+  @EnableJpaRepositories("com.rd.adchallenge.entities")
   public static class JpaConfiguration {
     
     @Autowired
@@ -58,7 +58,7 @@ public class PersistenceConfiguration {
       LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
       
       factory.setDataSource(dataSource);
-      factory.setPackagesToScan("com.rd.adchallenge.jpa");
+      factory.setPackagesToScan("com.rd.adchallenge.entities");
       factory.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
       
       HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
